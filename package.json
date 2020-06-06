@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --ignore-watch node_modules --transpileOnly src/server.ts",
+    "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
     "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
     "knex:seed": "knex --knexfile knexfile.ts seed:run"
   },
@@ -12,7 +12,9 @@
   "author": "Flavio Medeiros",
   "license": "ISC",
   "dependencies": {
+    "@types/dotenv": "^8.2.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "knex": "^0.21.1",
     "lodash": "^4.17.15",

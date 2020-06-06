@@ -1,18 +1,16 @@
 import { Request, Response } from 'express';
-import knex from '../database/connection';
+import ItemRepository from '../repositories/ItemRepository';
 
 class ItemsController {
+    private itemRepository: ItemRepository;
+
+    constructor() {
+        this.itemRepository = new ItemRepository;
+    }
+
     async index (request: Request, response: Response) {
-        const items = await knex.from('items');
-        const itemsSerializeds = items.map(item => {
-            return {
-                id: item.id,
-                title: item.title,
-                image_url: `http://localhost:3333/uploads/${item.image}`,
-            };
-        });
-    
-        return response.json(itemsSerializeds);
+        const items = await this.itemRepository.list();
+        return response.json(items);
     }
 }
 
