@@ -8,5 +8,5 @@ export default interface IPointCreate {
   longitude: number;
   city: string;
   uf: string;
-  items: number[], 
+  items: string, 
 };

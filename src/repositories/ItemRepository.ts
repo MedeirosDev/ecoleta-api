@@ -1,20 +1,31 @@
 import knex from '../database/connection';
-import * as dotenv from "dotenv";
-dotenv.config();
+import IItem from '../interfaces/entities/IItem';
+import ItemTransforme from '../transformers/ItemTransformer';
+import ResourceTransformer from '../transformers/ResourceTransformer';
 
 export default class ItemRepository {
 
-  async list() {
+  private transformer: ItemTransforme;
+	private resourceTransformer: ResourceTransformer<IItem>;
+
+	constructor() {
+		this.transformer = new ItemTransforme;
+		this.resourceTransformer = new ResourceTransformer(this.transformer);
+	}
+
+  async list(): Promise<IItem[]> {
     const items = await knex.from('items');
 
-    const itemsSerializeds = items.map(item => {
-        return {
-            id: item.id,
-            title: item.title,
-            image_url: `${process.env.BASE_URL}/uploads/${item.image}`,
-        };
-    });
+    return this.resourceTransformer.transform(items);
+  }
 
-    return itemsSerializeds;
-  }  
+  async getByPointId(pointId: number): Promise<IItem[]> {
+
+    const items = await knex.from('items')
+			.select('items.id', 'items.title', 'items.image')
+			.join('point_items', 'point_items.item_id', 'items.id')
+			.where('point_items.point_id', pointId);
+
+    return this.resourceTransformer.transform(items);
+  }
 }
