@@ -4,6 +4,8 @@ import PointsController from './controllers/PointsController';
 import ItemsController from './controllers/ItemsController';
 import multer from 'multer';
 import multerConfig from './config/multer';
+import pointCreateValidation from './validations/pointCreateValidation';
+
 
 const pointsController = new PointsController;
 const itemsController = new ItemsController;
@@ -29,6 +31,7 @@ routes.get('/points/:id', pointsController.show.bind(pointsController));
 routes.post(
 	'/points',
 	upload.single('image'),
+	pointCreateValidation,
 	pointsController.create.bind(pointsController)
 );
 
