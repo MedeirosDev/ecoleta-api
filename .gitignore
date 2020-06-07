@@ -1,6 +1,7 @@
 .idea/
 .vscode/
 node_modules/
+uploads/points/
 package-lock.json
 .env
 src/database/database.sqlite
